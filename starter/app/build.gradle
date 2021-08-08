@@ -52,6 +52,9 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:$version_navigation"
     implementation "androidx.navigation:navigation-ui-ktx:$version_navigation"
 
+    // Paging
+    implementation "androidx.paging:paging-runtime-ktx:$version_paging"
+
     implementation "com.squareup.moshi:moshi:$version_moshi"
     implementation "com.squareup.moshi:moshi-kotlin:$version_moshi"
 
@@ -65,7 +68,7 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$version_coroutine"
     implementation "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:$version_retrofit_coroutines_adapter"
 
-    implementation "androidx.recyclerview:recyclerview:$version_recyclerview"
+//    implementation "androidx.recyclerview:recyclerview:$version_recyclerview"
 
     implementation "com.squareup.picasso:picasso:$version_picasso"
 

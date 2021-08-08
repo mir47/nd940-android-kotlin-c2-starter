@@ -2,6 +2,7 @@ package com.udacity.asteroidradar.ui.main
 
 import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -11,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.databinding.FragmentMainBinding
 import com.udacity.asteroidradar.db.AsteroidDatabase
@@ -32,8 +34,29 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
     }
 
+    private lateinit var asteroidAdapter: AsteroidAdapter
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        println("mmmmm MainFragment onCreate")
+
+        // TODO: fix auto scroll to 0 on return from asteroid detail screen
+        asteroidAdapter = AsteroidAdapter(object : AsteroidAdapter.AsteroidListEvents {
+            override fun onItemClick(asteroid: Asteroid) {
+                findNavController().navigate(MainFragmentDirections.actionShowDetail(asteroid))
+            }
+
+            override fun onListChanged() {
+                binding.list.layoutManager?.scrollToPosition(0)
+            }
+        }).apply {
+            stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
+        }
+    }
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        println("mmmmm MainFragment onViewCreated")
         _binding = FragmentMainBinding.bind(view)
         binding.lifecycleOwner = this
 
@@ -48,16 +71,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                     binding.imageError.isVisible = !result
                     binding.imageProgress.isVisible = false
                 }
-            }
-        })
-
-        val asteroidAdapter = AsteroidAdapter(object : AsteroidAdapter.AsteroidListEvents {
-            override fun onItemClick(asteroid: Asteroid) {
-                findNavController().navigate(MainFragmentDirections.actionShowDetail(asteroid))
-            }
-
-            override fun onListChanged() {
-                binding.list.layoutManager?.scrollToPosition(0)
             }
         })
 

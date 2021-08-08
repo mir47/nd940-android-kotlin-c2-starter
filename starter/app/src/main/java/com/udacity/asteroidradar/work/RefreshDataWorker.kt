@@ -15,6 +15,7 @@ class RefreshDataWorker(appContext: Context, params: WorkerParameters):
         const val WORKER_NAME = "RefreshDataWorker"
     }
 
+    // TODO: worker not working
     override suspend fun doWork(): Result {
         val database = AsteroidDatabase.getInstance(applicationContext)
         val repository = AsteroidRepository(database.asteroidDao, database.imageDao)
